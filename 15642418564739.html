@@ -1,0 +1,374 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  并发编程-基础 - HaoWorld
+  
+  </title>
+ <meta name="description" content="积少成多">
+ <link href="atom.xml" rel="alternate" title="HaoWorld" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+    <script src="asset/highlightjs/highlight.pack.js"></script>
+    <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+<div id="header">
+    <h1><a href="index.html">HaoWorld</a></h1>
+</div>
+
+</nav>
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; HaoWorld</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+      <li><a href="index.html">Home</a></li>
+      
+        <li class="divider"></li>
+        <li><label>Java并发</label></li>
+
+          
+            <li><a title="并发测试三" href="15642426338677.html">并发测试三</a></li>
+          
+            <li><a title="并发测试二" href="15642426243568.html">并发测试二</a></li>
+          
+            <li><a title="并发编程-基础" href="15642418564739.html">并发编程-基础</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>JVM</label></li>
+
+          
+            <li><a title="JVM 测试五" href="15642426778788.html">JVM 测试五</a></li>
+          
+            <li><a title="JVM 测试四" href="15642426625687.html">JVM 测试四</a></li>
+          
+            <li><a title="JVM 测试三" href="15642426419152.html">JVM 测试三</a></li>
+          
+            <li><a title="JVM 测试二" href="15642425563765.html">JVM 测试二</a></li>
+          
+            <li><a title="JVM虚拟机技术" href="15642418058776.html">JVM虚拟机技术</a></li>
+          
+
+      
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+        <section id="main-content" role="main" class="scroll-container">
+
+          <div class="row">
+            <div class="large-3 medium-3 columns">
+              <div class="hide-for-small">
+                <div class="sidebar">
+                <nav>
+                  <ul id="side-nav" class="side-nav">
+
+                    
+                      <li class="side-title"><span>Java并发</span></li>
+                        
+                          <li><a title="并发测试三" href="15642426338677.html">并发测试三</a></li>
+                        
+                          <li><a title="并发测试二" href="15642426243568.html">并发测试二</a></li>
+                        
+                          <li><a title="并发编程-基础" href="15642418564739.html">并发编程-基础</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>JVM</span></li>
+                        
+                          <li><a title="JVM 测试五" href="15642426778788.html">JVM 测试五</a></li>
+                        
+                          <li><a title="JVM 测试四" href="15642426625687.html">JVM 测试四</a></li>
+                        
+                          <li><a title="JVM 测试三" href="15642426419152.html">JVM 测试三</a></li>
+                        
+                          <li><a title="JVM 测试二" href="15642425563765.html">JVM 测试二</a></li>
+                        
+                          <li><a title="JVM虚拟机技术" href="15642418058776.html">JVM虚拟机技术</a></li>
+                        
+
+                    
+                  </ul>
+                </nav>
+                </div>
+              </div>
+            </div>
+            <div class="large-9 medium-9 columns">
+
+ <div class="markdown-body">
+<h1>并发编程-基础</h1>
+
+<ul>
+<li>
+<a href="#toc_0">线程与进程区别</a>
+</li>
+<li>
+<a href="#toc_1">多线程创建方式</a>
+<ul>
+<li>
+<a href="#toc_2">第一种继承Thread类 重写run方法</a>
+</li>
+<li>
+<a href="#toc_3">第二种实现Runnable接口,重写run方法</a>
+<ul>
+<li>
+<a href="#toc_4">代码:</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_5">第三种使用匿名内部类方式</a>
+</li>
+<li>
+<a href="#toc_6">使用继承Thread类还是使用实现Runnable接口好？</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_7">获取线程对象以及名称</a>
+</li>
+<li>
+<a href="#toc_8">常用线程api方法</a>
+</li>
+</ul>
+
+
+<h3 id="toc_0">线程与进程区别</h3>
+
+<p>　　每个正在系统上运行的程序都是一个进程。每个进程包含一到多个线程。线程是一组指令的集合，或者是程序的特殊段，它可以在程序里独立执行。也可以把它理解为代码运行的上下文。所以线程基本上是轻量级的进程，它负责在单个程序里执行多任务。通常由操作系统负责多个线程的调度和执行。<br/>
+　　<br/>
+　　使用线程可以把占据时间长的程序中的任务放到后台去处理，程序的运行速度可能加快，在一些等待的任务实现上如用户输入、文件读写和网络收发数据等，线程就比较有用了。在这种情况下可以释放一些珍贵的资源如内存占用等等。<br/>
+　　<br/>
+　　如果有大量的线程,会影响性能，因为操作系统需要在它们之间切换，更多的线程需要更多的内存空间，线程的中止需要考虑其对程序运行的影响。通常块模型数据是在多个线程间共享的，需要防止线程死锁情况的发生。<br/>
+　　</p>
+
+<blockquote>
+<p>总结:进程是所有线程的集合，每一个线程是进程中的一条执行路径。</p>
+</blockquote>
+
+<p>为什么要使用多线程？<br/>
+多线程应用场景？<br/>
+答:主要能体现到多线程提高程序效率。<br/>
+举例: 迅雷多线程下载、数据库连接池、分批发送短信等。</p>
+
+<h3 id="toc_1">多线程创建方式</h3>
+
+<h4 id="toc_2">第一种继承Thread类 重写run方法</h4>
+
+<blockquote>
+<p><strong>代码如下</strong>:</p>
+</blockquote>
+
+<pre class="line-numbers"><code class="language-text">/**
+ * 
+ * @classDesc: 功能描述:(创建多线程例子-Thread类 重写run方法)
+ */
+class CreateThread extends Thread {
+    // run方法中编写 多线程需要执行的代码
+    publicvoid run() {
+        for (inti = 0; i&lt; 10; i++) {
+            System.out.println(&quot;i:&quot; + i);
+        }
+    }
+}
+publicclass ThreadDemo {
+    
+publicstaticvoid main(String[] args) {
+    System.out.println(&quot;-----多线程创建开始-----&quot;);
+    // 1.创建一个线程
+    CreateThread createThread = new CreateThread();
+    // 2.开始执行线程 注意 开启线程不是调用run方法，而是start方法
+    System.out.println(&quot;-----多线程创建启动-----&quot;);
+    createThread.start();
+    System.out.println(&quot;-----多线程创建结束-----&quot;);
+}
+    
+}
+ 
+</code></pre>
+
+<blockquote>
+<p><strong>执行结果:</strong></p>
+</blockquote>
+
+<p><figure><img src="media/15521994497311/15521998948938.jpg" alt="" style="width:691px;"/></figure></p>
+
+<p>　　调用start方法后，代码并没有从上往下执行，而是有一条新的执行分之<br/>
+　　<br/>
+　　注意：画图演示多线程不同执行路径。</p>
+
+<p><figure><img src="media/15521994497311/15521999086188.jpg" alt="" style="width:697px;"/></figure></p>
+
+<h4 id="toc_3">第二种实现Runnable接口,重写run方法</h4>
+
+<h5 id="toc_4">代码:</h5>
+
+<pre class="line-numbers"><code class="language-text">/**
+ * 
+ * @classDesc: 功能描述:(创建多线程例子-Thread类 重写run方法)
+ * @author: 余胜军
+ * @version: v1.0
+ * @copyright:上海每特教育科技有限公司
+ */
+class CreateRunnable implements Runnable {
+
+    @Override
+    publicvoid run() {
+        for (inti = 0; i&lt; 10; i++) {
+            System.out.println(&quot;i:&quot; + i);
+        }
+    }
+
+}
+
+/**
+ * 
+ * @classDesc: 功能描述:(实现Runnable接口,重写run方法)
+ * @author: 余胜军
+ * @version: v1.0
+ * @copyright:上海每特教育科技有限公司
+ */
+publicclass ThreadDemo2 {
+    publicstaticvoid main(String[] args) {
+        System.out.println(&quot;-----多线程创建开始-----&quot;);
+        // 1.创建一个线程
+        CreateRunnable createThread = new CreateRunnable();
+        // 2.开始执行线程 注意 开启线程不是调用run方法，而是start方法
+        System.out.println(&quot;-----多线程创建启动-----&quot;);
+        Thread thread = new Thread(createThread);
+        thread.start();
+        System.out.println(&quot;-----多线程创建结束-----&quot;);
+    }
+}
+</code></pre>
+
+<h4 id="toc_5">第三种使用匿名内部类方式</h4>
+
+<pre class="line-numbers"><code class="language-text">     System.out.println(&quot;-----多线程创建开始-----&quot;);
+         Thread thread = new Thread(new Runnable() {
+            public void run() {
+                for (int i = 0; i&lt; 10; i++) {
+                    System.out.println(&quot;i:&quot; + i);
+                }
+            }
+        });
+         thread.start();
+         System.out.println(&quot;-----多线程创建结束-----&quot;);
+</code></pre>
+
+<h4 id="toc_6">使用继承Thread类还是使用实现Runnable接口好？</h4>
+
+<pre class="line-numbers"><code class="language-text">使用实现实现Runnable接口好，原因实现了接口还可以继续继承，继承了类不能再继承。
+启动线程是使用调用start方法还是run方法？
+开始执行线程 注意 开启线程不是调用run方法，而是start方法
+调用run知识使用实例调用方法。
+</code></pre>
+
+<h3 id="toc_7">获取线程对象以及名称</h3>
+
+<h3 id="toc_8">常用线程api方法</h3>
+
+<pre class="line-numbers"><code class="language-text">start() 启动线程
+currentThread() 获取当前线程对象
+getID() 获取当前线程ID      Thread-编号  该编号从0开始
+getName()   获取当前线程名称
+sleep(long mill)    休眠线程
+Stop（）  停止线程, 已经过时，慎用， 可能造成 stop 后 会将所释放， 而且有些清理工作可能会没有完成
+</code></pre>
+
+
+</div>
+
+<br /><br />
+<hr />
+
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	        <a href="15642425563765.html"  title="Previous Post: JVM 测试二">&laquo; JVM 测试二</a>
+	    
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="15642418058776.html" 
+	        title="Next Post: JVM虚拟机技术">JVM虚拟机技术 &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
+
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
+
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '15642418564739.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
+</div></div>
+
+
+<div class="page-bottom">
+  <div class="row">
+  <hr />
+  <div class="small-9 columns">
+  <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+  <div class="small-3 columns">
+  <p class="copyright text-right"><a href="#header">TOP</a></p>
+  </div>
+   
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+    
+    
+    <script src="asset/js/foundation.min.js"></script>
+    <script src="asset/js/foundation/foundation.offcanvas.js"></script>
+    <script>
+      $(document).foundation();
+
+     
+    </script>
+    
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+  </body>
+</html>

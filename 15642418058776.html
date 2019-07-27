@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  HaoWorld
+  JVM虚拟机技术 - HaoWorld
   
   </title>
  <meta name="description" content="积少成多">
@@ -117,58 +117,81 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>JVM虚拟机技术</h1>
 
+<h2 id="toc_0">01-什么是HotSpot VM</h2>
 
-	
-		<div class="markdown-body">
-		<h1>JVM 测试五</h1>
+<p>　　提起HotSpot VM，相信所有Java程序员都知道，它是Sun JDK和OpenJDK中所带的虚拟机，也是目前使用范围最广的Java虚拟机。但不一定所有人都知道的是，这个目前看起来“血统纯正”的虚拟机在最初并非由Sun公司开发，而是由一家名为“Longview Technologies”的小公司设计的；甚至这个虚拟机最初并非是为Java语言而开发的，它来源于Strongtalk VM，而这款虚拟机中相当多的技术又是来源于一款支持Self语言实现“达到C语言50%以上的执行效率”的目标而设计的虚拟机，Sun公司注意到了这款虚拟机在JIT编译上有许多优秀的理念和实际效果，在1997年收购了Longview Technologies公司，从而获得了HotSpot VM。HotSpot VM既继承了Sun之前两款商用虚拟机的优点（如前面提到的准确式内存管理），也有许多自己新的技术优势，如它名称中的HotSpot指的就是它的热点代码探测技术（其实两个VM基本上是同时期的独立产品，HotSpot还稍早一些，HotSpot一开始就是准确式GC，而Exact VM之中也有与HotSpot几乎一样的热点探测。<br/>
+　　 <br/>
+　　为了Exact VM和HotSpot VM哪个成为Sun主要支持的VM产品，在Sun公司内部还有过争论，HotSpot打败Exact并不能算技术上的胜利），HotSpot VM的热点代码探测能力可以通过执行计数器找出最具有编译价值的代码，然后通知JIT编译器以方法为单位进行编译。<br/>
+　　<br/>
+　　如果一个方法被频繁调用，或方法中有效循环次数很多，将会分别触发标准编译和OSR（栈上替换）编译动作。<br/>
+　　<br/>
+　　通过编译器与解释器恰当地协同工作，可以在最优化的程序响应时间与最佳执行性能中取得平衡，而且无须等待本地代码输出才能执行程序，即时编译的时间压力也相对减小，这样有助于引入更多的代码优化技术，输出质量更高的本地代码。<br/>
+　　<br/>
+　　在2006年的JavaOne大会上，Sun公司宣布最终会把Java开源，并在随后的一年，陆续将JDK的各个部分（其中当然也包括了HotSpot VM）在GPL协议下公开了源码，并在此基础上建立了OpenJDK。这样，HotSpot VM便成为了Sun JDK和OpenJDK两个实现极度接近的JDK项目的共同虚拟机。<br/>
+　　 <br/>
+　　在2008年和2009年，Oracle公司分别收购了BEA公司和Sun公司，这样Oracle就同时拥有了两款优秀的Java虚拟机：JRockit VM和HotSpot VM。<br/>
+　　<br/>
+　　Oracle公司宣布在不久的将来（大约应在发布JDK 8的时候）会完成这两款虚拟机的整合工作，使之优势互补。整合的方式大致上是在HotSpot的基础上，移植JRockit的优秀特性，譬如使用JRockit的垃圾回收器与MissionControl服务，使用HotSpot的JIT编译器与混合的运行时系统。<br/>
+　　</p>
 
-		<h2 id="toc_0">测试</h2>
+<h2 id="toc_1">测试</h2>
 
-<p><code>ceshi</code> 测试</p>
+<pre class="line-numbers"><code class="language-text">public static void main(String[] args)
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException,
+            SecurityException, IllegalArgumentException, InvocationTargetException {
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.itmayiedu.Test0005&quot;);
+        Object newInstance = clazz.newInstance();
+        Method method = clazz.getDeclaredMethod(&quot;sum&quot;, int.class, int.class);
+        Object invoke = method.invoke(newInstance, 1, 1);
+    }
 
-<pre class="line-numbers"><code class="language-text">测试一下
+    public void sum(int a, int b) {
+        System.out.println(&quot;sum:&quot; + a + b);
+    }
 </code></pre>
 
-<ul>
-<li>发送</li>
-<li>3人
-<ul>
-<li>测试</li>
-<li>发送</li>
-</ul></li>
-</ul>
-
-<h3 id="toc_1">测试</h3>
+<p>　　<br/>
+　　</p>
 
 
-		</div>
-	
+</div>
 
- 
-	
+<br /><br />
+<hr />
 
- 
-	
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	        <a href="15642418564739.html"  title="Previous Post: 并发编程-基础">&laquo; 并发编程-基础</a>
+	    
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+</div>
 
- 
-	
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
- 
-	
-
- 
-	
-
- 
-	
-
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '15642418058776.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 
